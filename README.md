@@ -53,7 +53,7 @@ El sistema mantiene la actualización de información de forma continua durante 
 
 ---
 
-## 🚫 Restricciones de Diseño
+## Restricciones de Diseño
 
  **Restricción Energética**  
 El sistema requiere alimentación externa (5V vía USB), por lo que no es completamente autónomo. No se implementó sistema de baterías dentro del alcance del proyecto.
