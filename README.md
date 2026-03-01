@@ -1,120 +1,139 @@
-# 🌫️ Sistema IoT de Monitoreo de Calidad del Aire – Sabana Centro
+# 🌫️ ArduinoUno-AirQuality-FusionSystem
 
-## 📌 Descripción del Proyecto
+## 📌 Project Overview
 
-Este proyecto consiste en el desarrollo de un prototipo funcional IoT de bajo costo para el monitoreo en tiempo real de la calidad del aire en la región Sabana Centro (Cundinamarca).
+This project consists of the design and implementation of a low-cost embedded IoT prototype for real-time air quality monitoring in Sabana Centro (Cundinamarca, Colombia).
 
-El sistema mide múltiples variables ambientales críticas y aplica lógica de fusión de datos para generar alertas tempranas **in situ**, sin uso de redes de comunicación, cumpliendo las restricciones técnicas del reto académico.
+The system integrates multiple environmental signals and applies data fusion logic to generate reliable in situ alerts without the use of communication networks.
 
----
-
-## 🎯 Objetivo
-
-Diseñar e implementar un sistema embebido capaz de:
-
-- Medir material particulado (PM2.5 / PM10)
-- Detectar gases contaminantes
-- Registrar variables meteorológicas (temperatura, humedad y presión)
-- Integrar múltiples señales mediante lógica de fusión
-- Generar alertas locales mediante buzzer, LEDs y visualización en pantalla
+Developed using an Arduino Uno as the central embedded system.
 
 ---
 
-## 🧠 Arquitectura del Sistema
+## 🎯 Objective
 
-El sistema se compone de tres subsistemas principales:
+To design and implement an embedded system capable of:
 
-### 1️⃣ Sensado
-- PMS5003 (Material particulado)
-- MQ135 (Gases)
-- BME280 (Temperatura, Humedad, Presión)
-
-### 2️⃣ Procesamiento
-- Microcontrolador ESP32
-- Filtrado y validación de datos
-- Normalización de variables
-- Motor de fusión ambiental
-- Clasificación del estado del aire
-
-### 3️⃣ Actuación
-- Pantalla LCD/OLED (visualización en tiempo real)
-- Buzzer (alerta sonora)
-- LEDs indicadores de severidad
+- Measuring particulate matter (PM2.5 / PM10)
+- Detecting pollutant gases
+- Monitoring meteorological variables (temperature, humidity, pressure)
+- Combining multiple environmental signals through data fusion
+- Generating real-time local alerts using physical actuators
 
 ---
 
-## ⚙️ Restricciones del Reto
+## 🧠 System Architecture
 
-- No uso de Raspberry Pi
-- No uso de redes de comunicación para alertas
-- Sistema completamente autónomo
-- Alertas exclusivamente físicas y visuales
+The system is structured into three main subsystems:
 
----
+### 1️⃣ Sensing Layer
+- PMS5003 → Particulate Matter (UART)
+- MQ135 → Gas concentration (Analog input)
+- BME280 → Temperature, Humidity, Pressure (I2C)
 
-## 📊 Clasificación del Aire
+### 2️⃣ Processing Layer
+- Arduino Uno
+- Signal acquisition module
+- Data filtering and validation
+- Environmental data normalization
+- Fusion engine (composite air quality index)
+- Threshold classification logic
 
-El sistema genera un índice compuesto de calidad del aire y lo clasifica en:
-
-- 🟢 Bueno
-- 🟡 Moderado
-- 🟠 Dañino
-- 🔴 Peligroso
-
-Dependiendo del nivel, se activan patrones específicos de alerta.
-
----
-
-## 🧪 Validación Experimental
-
-Se realizaron pruebas controladas variando:
-
-- Concentración de partículas
-- Presencia de alcohol/gases
-- Cambios ambientales simulados
-
-Se verificó el comportamiento de la lógica de fusión y la activación correcta de alarmas.
+### 3️⃣ Actuation & Interface Layer
+- LCD display (real-time visualization)
+- Buzzer (acoustic alert)
+- RGB LED indicators (air quality status)
 
 ---
 
-## 👥 Integrantes
+## 🚫 Design Constraints
 
-- Nombre 1
-- Nombre 2
-- Nombre 3
+- No Raspberry Pi allowed
+- No communication networks for alerting
+- Fully autonomous operation
+- In situ alerts only (visual + sound)
 
-Curso: Internet de las Cosas  
-Facultad de Ingeniería  
+---
+
+## 📊 Air Quality Classification
+
+The system computes a composite environmental score and classifies air quality into:
+
+- 🟢 Good
+- 🟡 Moderate
+- 🟠 Harmful
+- 🔴 Dangerous
+
+Each level triggers specific visual and acoustic patterns.
+
+---
+
+## 🧪 Experimental Validation
+
+The system was tested under controlled variations of:
+
+- Particulate exposure
+- Gas presence (alcohol simulation)
+- Environmental parameter changes
+
+The fusion logic and alert activation were validated under critical scenarios.
+
+---
+
+## 🛠️ Hardware Used
+
+- Arduino Uno
+- PMS5003
+- MQ135
+- BME280
+- LCD Display (I2C)
+- Active Buzzer
+- RGB LED
+
+---
+
+## 👥 Team Members
+
+- Name 1
+- Name 2
+- Name 3
+
+Course: Internet of Things  
+Faculty of Engineering  
 Universidad de La Sabana  
 2026-1  
 
 ---
 
-## 🎥 Video Demostrativo
+## 🎥 Demonstration Video
 
-[Enlace al video en MS Teams o plataforma correspondiente]
-
----
-
-## 📚 Documentación Completa
-
-La documentación técnica completa del proyecto se encuentra en la sección **Wiki** del repositorio:
-
-👉 [Ir a la Wiki del Proyecto]
+[Insert MS Teams or public video link here]
 
 ---
 
-## 🤖 Uso de Inteligencia Artificial
+## 📚 Full Technical Documentation
 
-En caso de haber utilizado herramientas de IA para apoyo técnico o redacción, se detalla su uso y validación en la sección correspondiente dentro de la Wiki.
+The complete technical documentation, including:
+
+- Design constraints
+- System architecture diagrams
+- UML diagrams
+- Fusion logic design
+- Experimental configuration
+- Results and analysis
+- AI usage disclosure (if applicable)
+
+is available in the **Wiki section** of this repository.
+
+👉 [Go to Wiki]
 
 ---
 
-## 📌 Estado del Proyecto
+## 📌 Project Status
 
-✔ Prototipo funcional  
-✔ Lógica de fusión implementada  
-✔ Validación experimental realizada  
-✔ Documentación técnica en desarrollo  
+✔ Functional prototype  
+✔ Data fusion implemented  
+✔ In situ alert system validated  
+✔ Technical documentation in progress  
 
 ---
