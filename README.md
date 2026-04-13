@@ -1,30 +1,34 @@
-# ArduinoUno-AirQuality-FusionSystem
+# AirQuality-IoT-FusionSystem
 
 ## Descripción del Proyecto
 
-Este proyecto consiste en el diseño e implementación de un prototipo embebido IoT de bajo costo para el monitoreo en tiempo real de la calidad del aire en la región Sabana Centro (Cundinamarca, Colombia).
+Este proyecto consiste en el diseño e implementación de un sistema embebido IoT de bajo costo para el monitoreo en tiempo real de la calidad del aire en la región Sabana Centro (Cundinamarca, Colombia).
 
-El sistema integra múltiples variables ambientales (material particulado, gases y condiciones meteorológicas) y aplica una lógica de fusión de datos para generar alertas tempranas in situ, sin utilizar redes de comunicación, cumpliendo con las restricciones técnicas del reto académico.
+El sistema integra múltiples variables ambientales (material particulado, gases y condiciones meteorológicas), aplica una lógica de fusión de datos para generar alertas tempranas in situ y complementa su funcionalidad mediante un sistema de monitoreo remoto a través de un tablero web embebido.
 
-El sistema está desarrollado utilizando un Arduino Uno*como microcontrolador principal.
+A diferencia de la primera fase, esta versión incorpora conectividad WiFi y un servidor web local, permitiendo la visualización en tiempo real y el acceso restringido a la información desde dispositivos conectados a la WLAN.
+
+El sistema está desarrollado utilizando un ESP32 como microcontrolador principal, aprovechando sus capacidades de conectividad y multitarea.
 
 ---
 
 ## Objetivo
 
-Diseñar e implementar un sistema embebido capaz de:
+Diseñar e implementar un sistema IoT capaz de:
 
 - Medir material particulado (PM2.5 / PM10)
 - Detectar gases contaminantes
 - Registrar variables meteorológicas (temperatura, humedad y presión)
 - Integrar múltiples señales mediante lógica de fusión ambiental
 - Generar alertas locales en tiempo real mediante actuadores físicos
+- Publicar información en un dashboard web accesible dentro de la red local
+- Permitir interacción con el sistema (control de alarmas)
 
 ---
 
 ## Arquitectura del Sistema
 
-El sistema se organiza en tres niveles funcionales que separan medición, análisis y respuesta:
+El sistema se organiza en cinco niveles funcionales que separan medición, análisis, comunicación y visualización:
 
 ### 1 Capa de Sensado
 Encargada de capturar variables ambientales:
@@ -34,17 +38,23 @@ Encargada de capturar variables ambientales:
 
 Cada sensor entrega datos independientes que luego son procesados por el microcontrolador.
 
+---
+
 ### 2️ Capa de Procesamiento
-El Arduino Uno realiza:
-- Lectura periódica de sensores
-- Validación básica de datos
-- Cálculo de un índice compuesto de calidad del aire (combinando las variables con distinta importancia)
+El ESP32 realiza:
+
+- Lectura periódica de sensores (cada 2 segundos)
+- Validación de datos
+- Cálculo de un índice compuesto de calidad del aire
 - Clasificación del estado del aire mediante umbrales
 
 La lógica de fusión asigna mayor peso al material particulado y a los gases por su impacto directo en la salud.
 
-### 3️ Capa de Actuación e Interfaz
+---
+
+### 3️ Capa de Actuación e Interfaz Local
 Comunica el estado del aire al usuario mediante:
+
 - **Pantalla LCD** (visualización alternada de variables y estado)
 - **Buzzer** (alerta sonora según nivel de riesgo)
 - **LED RGB** (indicador visual inmediato)
@@ -53,61 +63,89 @@ El sistema mantiene la actualización de información de forma continua durante 
 
 ---
 
-## Restricciones de Diseño
+### 4 Capa de Comunicación (IoT)
 
- **Restricción Energética**  
-El sistema requiere alimentación externa (5V vía USB), por lo que no es completamente autónomo. No se implementó sistema de baterías dentro del alcance del proyecto.
+Se implementa conectividad mediante:
 
- **Restricción Temporal**  
-La disponibilidad de sensores dependía de tiempos de envío internacionales, lo que condicionó la selección de componentes y la planificación del montaje.
-
- **Restricción Económica**  
-Aunque el reto sugiere “bajo costo” (< 100 USD), el equipo estableció un presupuesto máximo de **50 USD**, influyendo en la selección de componentes accesibles.
-
- **Restricción de Espacio**  
-El montaje se realizó con un Arduino Uno y una protoboard compacta, definiendo el tamaño mínimo físico del sistema.
-
- **Restricción Funcional del Reto**
-- No se permite Raspberry Pi  
-- No se permiten redes de comunicación para alertas  
-- Las notificaciones deben ser exclusivamente locales (visuales y sonoras)
+- Servidor web embebido en el ESP32
+- Comunicación HTTP dentro de la red WLAN
+- Acceso restringido a dispositivos conectados a la red local
+- Autenticación de usuarios según rol
 
 ---
 
-##  Clasificación de la Calidad del Aire
+### 5 Capa de Aplicación (Dashboard Web)
+
+Permite la interacción con el sistema a través de un navegador:
+
+- Visualización en tiempo real de variables
+- Histórico reciente de datos
+- Indicadores visuales del estado del aire
+- Control remoto de alarmas físicas
+
+---
+
+## Restricciones de Diseño
+
+ **Restricción Energética**  
+El sistema requiere alimentación externa (5V vía USB), por lo que no es completamente autónomo.
+
+ **Restricción Temporal**  
+La disponibilidad de sensores dependía de tiempos de envío internacionales, lo que condicionó el desarrollo.
+
+ **Restricción Económica**  
+Se estableció un presupuesto máximo de **50 USD**, priorizando componentes de bajo costo.
+
+ **Restricción de Espacio**  
+El sistema se implementa sobre una protoboard compacta con un ESP32.
+
+ **Restricción Funcional del Reto**
+- No se permite Raspberry Pi  
+- No se permite el uso de MQTT  
+- El sistema debe operar en una red WLAN local  
+- El dashboard debe estar alojado en un servidor web embebido  
+
+---
+
+## Clasificación de la Calidad del Aire
 
 El sistema calcula un índice compuesto a partir de:
+
 - PM2.5
 - Nivel estimado de gases
 - Temperatura
 - Humedad
 
 Con base en este valor, el aire se clasifica en:
-- 🟢 **Bueno**
-- 🟡 **Moderado**
-- 🔴 **Peligroso**
 
-Cada categoría activa un patrón específico de LED y buzzer, permitiendo identificar el nivel de riesgo de forma inmediata.
+- 🟢 **Bueno (OK)**
+- 🟡 **Advertencia (ADV)**
+- 🔴 **Peligroso (PEL)**
+
+Cada categoría activa un patrón específico de LED y buzzer.
 
 ---
 
 ## Validación Experimental
 
 Se realizaron pruebas variando de manera controlada:
+
 - Incremento de gases (simulación con alcohol)
 - Aumento de material particulado
 - Cambios en condiciones ambientales
 
 Se verificó que:
+
 - El sistema cambia de estado al superar umbrales definidos
-- Las alertas visuales y sonoras se activan según el nivel detectado
-- La visualización permanece estable y actualizada durante la operación
+- Las alertas locales se activan correctamente
+- El dashboard refleja los cambios en tiempo real
+- El sistema mantiene estabilidad durante la operación continua
 
 ---
 
 ## Hardware Utilizado
 
-- Arduino Uno
+- ESP32 DevKit
 - Sensor PMS5003
 - Sensor MQ135
 - Sensor BME280
@@ -119,15 +157,18 @@ Se verificó que:
 
 ## Cómo ejecutar (rápido)
 
-1. Abrir el archivo `.ino` del proyecto en Arduino IDE.  
-2. Instalar las librerías necesarias (ver Wiki).  
-3. Conectar el Arduino Uno por USB y cargar el programa.
+1. Abrir el archivo `.ino` en Arduino IDE  
+2. Seleccionar la placa: **ESP32 Dev Module**  
+3. Configurar credenciales WiFi en el código  
+4. Subir el programa al ESP32  
+5. Conectarse a la red WLAN  
+6. Acceder al dashboard mediante la IP del dispositivo  
 
 > Nota: Los detalles de conexión (pines) se documentan en la **Wiki**.
 
 ---
 
-##  Integrantes
+## Integrantes
 
 - Brainer Steven Jimenez Gonzalez  
 - Bruno Elias Pérez Merino  
@@ -139,13 +180,7 @@ Universidad de La Sabana
 
 ---
 
-##  Video Demostrativo
-
-[Video](https://youtu.be/zHWzqJutPME)
-
----
-
-##  Documentación Técnica Completa
+## Documentación Técnica Completa
 
 La documentación técnica completa (arquitectura detallada, diagramas, modelo de fusión, configuración experimental, resultados y análisis) se encuentra en la sección **Wiki** del repositorio.
 
@@ -155,7 +190,9 @@ La documentación técnica completa (arquitectura detallada, diagramas, modelo d
 
 ## Estado del Proyecto
 
-- Prototipo funcional  
+- Sistema IoT funcional  
 - Lógica de fusión implementada  
-- Sistema de alertas validado  
-- Documentación técnica en desarrollo  
+- Dashboard web operativo  
+- Comunicación local estable  
+- Histórico de datos implementado  
+- Sistema validado experimentalmente  
