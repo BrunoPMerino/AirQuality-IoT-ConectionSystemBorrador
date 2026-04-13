@@ -30,7 +30,7 @@ Diseñar e implementar un sistema IoT capaz de:
 
 El sistema se organiza en cinco niveles funcionales que separan medición, análisis, comunicación y visualización:
 
-### 1 Capa de Sensado
+### 1. Capa de Sensado
 Encargada de capturar variables ambientales:
 - **PMS5003** → Material particulado (UART)
 - **MQ135** → Gases (entrada analógica)
@@ -40,7 +40,7 @@ Cada sensor entrega datos independientes que luego son procesados por el microco
 
 ---
 
-### 2️ Capa de Procesamiento
+### 2️. Capa de Procesamiento
 El ESP32 realiza:
 
 - Lectura periódica de sensores (cada 2 segundos)
@@ -52,7 +52,7 @@ La lógica de fusión asigna mayor peso al material particulado y a los gases po
 
 ---
 
-### 3️ Capa de Actuación e Interfaz Local
+### 3️. Capa de Actuación e Interfaz Local
 Comunica el estado del aire al usuario mediante:
 
 - **Pantalla LCD** (visualización alternada de variables y estado)
@@ -63,7 +63,7 @@ El sistema mantiene la actualización de información de forma continua durante 
 
 ---
 
-### 4 Capa de Comunicación (IoT)
+### 4. Capa de Comunicación (IoT)
 
 Se implementa conectividad mediante:
 
@@ -74,7 +74,7 @@ Se implementa conectividad mediante:
 
 ---
 
-### 5 Capa de Aplicación (Dashboard Web)
+### 5. Capa de Aplicación (Dashboard Web)
 
 Permite la interacción con el sistema a través de un navegador:
 
