@@ -189,7 +189,7 @@ Universidad de La Sabana
 
 La documentación técnica completa (arquitectura detallada, diagramas, modelo de fusión, configuración experimental, resultados y análisis) se encuentra en la sección **Wiki** del repositorio.
 
-[Ir a la Wiki](https://github.com/BrunoPMerino/AirQuality-IoT-FusionSystem/wiki)
+[Ir a la Wiki](https://github.com/BrunoPMerino/AirQuality-IoT-ConectionSystemBorrador/wiki)
 
 ---
 
