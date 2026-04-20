@@ -179,6 +179,10 @@ Universidad de La Sabana
 2026-1  
 
 ---
+## Video demostrativo
+
+[video](https://youtu.be/VCLDAajz_8g)
+---
 
 ## Documentación Técnica Completa
 
