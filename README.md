@@ -182,6 +182,7 @@ Universidad de La Sabana
 ## Video demostrativo
 
 [video](https://youtu.be/VCLDAajz_8g)
+
 ---
 
 ## Documentación Técnica Completa
